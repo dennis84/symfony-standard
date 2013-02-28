@@ -36,12 +36,15 @@ class DemoController extends Controller
      */
     public function contactAction()
     {
-        $form = $this->get('form.factory')->create(new ContactType());
+        $form = $this->get('acme.demo.forms')->contact();
 
         $request = $this->get('request');
         if ('POST' == $request->getMethod()) {
-            $form->bindRequest($request);
-            if ($form->isValid()) {
+            $form->bind($request->request->all());
+
+            return $form->fold(function ($formWithErrors) {
+                return array('form' => $formWithErrors);
+            }, function ($formData) {
                 $mailer = $this->get('mailer');
                 // .. setup a message and send it
                 // http://symfony.com/doc/current/cookbook/email.html
@@ -49,9 +52,9 @@ class DemoController extends Controller
                 $this->get('session')->setFlash('notice', 'Message sent!');
 
                 return new RedirectResponse($this->generateUrl('_demo'));
-            }
+            });
         }
 
-        return array('form' => $form->createView());
+        return array('form' => $form);
     }
 }

@@ -4,12 +4,22 @@
 
 {% block content %}
     <form action="{{ path('_demo_contact') }}" method="POST" id="contact_form">
-        {{ form_errors(form) }}
+        <div>
+            <label for="{{ form.email.name }}">Email</label>
+            <input type="email" name="{{ form.email.name }}" value="{{ form.email.value }}">
+            {% for error in form.email.errors %}
+            <p>{{ error.message }}</p>
+            {% endfor %}
+        </div>
 
-        {{ form_row(form.email) }}
-        {{ form_row(form.message) }}
+        <div>
+            <label for="{{ form.message.name }}">Message</label>
+            <textarea name="{{ form.message.name }}">{{ form.message.value }}</textarea>
+            {% for error in form.message.errors %}
+            <p>{{ error.message }}</p>
+            {% endfor %}
+        </div>
 
-        {{ form_rest(form) }}
         <input type="submit" value="Send" class="symfony-button-grey" />
     </form>
 {% endblock %}

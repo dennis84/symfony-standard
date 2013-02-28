@@ -5,6 +5,12 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
+        <service id="formz.builder" class="Formz\Builder" />
+
+        <service id="acme.demo.forms" class="Acme\DemoBundle\Form\Forms">
+            <argument type="service" id="formz.builder" />
+        </service>
+
         <service id="twig.extension.acme.demo" class="Acme\DemoBundle\Twig\Extension\DemoExtension" public="false">
             <tag name="twig.extension" />
             <argument type="service" id="twig.loader" />
