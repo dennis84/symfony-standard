@@ -52,6 +52,9 @@ Execute the `check.php` script from the command line:
 
     php app/check.php
 
+The script returns a status code of `0` if all mandatory requirements are met,
+`1` otherwise.
+
 Access the `config.php` script from a browser:
 
     http://localhost/path/to/symfony/app/web/config.php
@@ -91,10 +94,9 @@ playing with it, you can remove it by following these steps:
 
   * delete the `src/Acme` directory;
 
-  * remove the routing entries referencing AcmeBundle in
-    `app/config/routing_dev.yml`;
+  * remove the routing entry referencing AcmeDemoBundle in `app/config/routing_dev.yml`;
 
-  * remove the AcmeBundle from the registered bundles in `app/AppKernel.php`;
+  * remove the AcmeDemoBundle from the registered bundles in `app/AppKernel.php`;
 
   * remove the `web/bundles/acmedemo` directory;
 

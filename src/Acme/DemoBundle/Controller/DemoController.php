@@ -4,7 +4,6 @@ namespace Acme\DemoBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Acme\DemoBundle\Form\ContactType;
 
 // these import the "@Route" and "@Template" annotations
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -39,20 +38,18 @@ class DemoController extends Controller
         $form = $this->get('acme.demo.forms')->contact();
 
         $request = $this->get('request');
-        if ('POST' == $request->getMethod()) {
+        if ($request->isMethod('POST')) {
             $form->bind($request->request->all());
 
-            return $form->fold(function ($formWithErrors) {
-                return array('form' => $formWithErrors);
-            }, function ($formData) {
+            if ($form->isValid()) {
                 $mailer = $this->get('mailer');
                 // .. setup a message and send it
                 // http://symfony.com/doc/current/cookbook/email.html
 
-                $this->get('session')->setFlash('notice', 'Message sent!');
+                $this->get('session')->getFlashBag()->set('notice', 'Message sent!');
 
                 return new RedirectResponse($this->generateUrl('_demo'));
-            });
+            }
         }
 
         return array('form' => $form);
